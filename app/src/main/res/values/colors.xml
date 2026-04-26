@@ -1,5 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="thryve_bg">#0A0F0A</color>
+    <color name="thryve_card">#111811</color>
+    <color name="thryve_green">#4CAF50</color>
+    <color name="thryve_orange">#FF9800</color>
+    <color name="thryve_blue">#2196F3</color>
+    <color name="thryve_red">#E53935</color>
+    <color name="thryve_white">#FFFFFF</color>
+    <color name="thryve_grey">#888888</color>
+    <color name="thryve_nav_bg">#0D120D</color>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#0A0F0A</color>
+    <color name="colorAccent">#4CAF50</color>
 </resources>
+

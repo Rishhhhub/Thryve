@@ -1,9 +1,11 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Thryve" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Thryve" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@color/thryve_bg</item>
+        <item name="android:statusBarColor">@color/thryve_bg</item>
+        <item name="android:navigationBarColor">@color/thryve_nav_bg</item>
+        <item name="colorPrimary">@color/thryve_green</item>
+        <item name="colorPrimaryDark">@color/thryve_bg</item>
+        <item name="colorAccent">@color/thryve_green</item>
     </style>
-
-    <style name="Theme.Thryve" parent="Base.Theme.Thryve" />
 </resources>
