@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#05110E">
+
+    <RelativeLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily Journal"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTodayDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Sunday, Apr 26"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnGoSettings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_manage"
+            android:tint="#FFFFFF"
+            android:padding="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomNavJournal"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="#0D2B24"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@android:drawable/ic_menu_sort_by_size" android:tint="#FFFFFF" />
+        <ImageView android:id="@+id/btnNavWorkout" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@android:drawable/ic_menu_directions" android:tint="#FFFFFF" />
+        <ImageView android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@android:drawable/ic_menu_today" android:tint="#00FFCC" />
+        <ImageView android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@android:drawable/ic_menu_myplaces" android:tint="#FFFFFF" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSubmitJournal"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_above="@id/bottomNavJournal"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#00FFCC"
+        android:text="SUBMIT JOURNAL"
+        android:textColor="#05110E"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerLayout"
+        android:layout_above="@id/btnSubmitJournal"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Morning Routine"
+                android:textColor="#88FFFFFF"
+                android:layout_marginBottom="15dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swCaffeine"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" android:background="@drawable/rounded_container"
+                android:padding="18dp" android:text="Consumed caffeine?" android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swExercise"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" android:background="@drawable/rounded_container"
+                android:padding="18dp" android:text="Did you exercise today?" android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swVitamins"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" android:background="@drawable/rounded_container"
+                android:padding="18dp" android:text="Take morning vitamins" android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swSleep"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" android:background="@drawable/rounded_container"
+                android:padding="18dp" android:text="8 hours of sleep?" android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swStress"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" android:background="@drawable/rounded_container"
+                android:padding="18dp" android:text="High stress levels?" android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swSugar"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" android:background="@drawable/rounded_container"
+                android:padding="18dp" android:text="High sugar intake?" android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAlcohol"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" android:background="@drawable/rounded_container"
+                android:padding="18dp" android:text="Consumed alcohol?" android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="How are you feeling today?" android:textColor="#88FFFFFF"
+                android:layout_marginTop="15dp" android:layout_marginBottom="10dp" />
+
+            <EditText
+                android:id="@+id/etFeelingInput"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/rounded_container" android:gravity="top"
+                android:hint="Type your thoughts here..." android:padding="15dp"
+                android:textColor="#FFFFFF" android:textColorHint="#44FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
