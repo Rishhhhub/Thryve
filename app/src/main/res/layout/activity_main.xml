@@ -17,54 +17,58 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="20dp">
-                <ImageView android:id="@+id/btnBack" android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_back" app:tint="#FFFFFF"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:text="Select Activity" android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold"/>
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:src="@drawable/ic_more" app:tint="#FFFFFF"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="THRYVE"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_settings"
+                    app:tint="#FFFFFF" />
             </RelativeLayout>
 
             <EditText
-                android:layout_width="match_parent" android:layout_height="54dp"
-                android:background="@drawable/search_bg" android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="12dp" android:hint="Search activities (e.g. Swimming)"
-                android:paddingStart="16dp" android:textColor="#FFFFFF" android:textColorHint="#4DFFFFFF"
-                android:layout_marginBottom="30dp" android:textSize="14sp"/>
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/search_bg"
+                android:hint="Search activities..."
+                android:paddingStart="15dp"
+                android:textColorHint="#66FFFFFF"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="25dp"/>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⚡ Quick Start" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold" android:layout_marginBottom="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recent Activities"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="15dp"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:background="@drawable/recommended_gradient" android:padding="24dp" android:layout_marginBottom="32dp">
-                <TextView android:id="@+id/tag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="RECOMMENDED" android:textColor="#10B981" android:textSize="12sp" android:textStyle="bold"/>
-                <TextView android:id="@+id/title" android:layout_below="@id/tag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Outdoor Running" android:textColor="#FFFFFF" android:textSize="24sp" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <TextView android:id="@+id/desc" android:layout_below="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ready for your daily 5km route?" android:textColor="#99FFFFFF" android:layout_marginTop="5dp"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnStartNow" android:layout_width="wrap_content" android:layout_height="54dp"
-                    android:layout_below="@id/desc" android:layout_marginTop="20dp" android:text="▶ Start Now"
-                    android:textColor="#000000" app:backgroundTint="#00FF7F" app:cornerRadius="27dp" android:textAllCaps="false" android:textStyle="bold"/>
-            </RelativeLayout>
-
-            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Popular Activities" android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View All" android:textColor="#10B981" android:textStyle="bold"/>
-            </RelativeLayout>
-
-            <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="2" android:alignmentMode="alignMargins">
-                <include android:id="@+id/cardWalking" layout="@layout/item_grid_activity" />
-                <include android:id="@+id/cardCycling" layout="@layout/item_grid_activity" />
-                <include android:id="@+id/cardYoga" layout="@layout/item_grid_activity" />
-                <include android:id="@+id/cardSwimming" layout="@layout/item_grid_activity" />
-            </GridLayout>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Other Activities" android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold" android:layout_marginTop="30dp" android:layout_marginBottom="16dp"/>
-
-            <include android:id="@+id/listStrength" layout="@layout/item_activity_list_row" />
-            <include android:id="@+id/listRowing" layout="@layout/item_activity_list_row" />
-            <include android:id="@+id/listHiking" layout="@layout/item_activity_list_row" />
+            <Button
+                android:id="@+id/btnQuickStart"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="#00FF7F"
+                android:text="QUICK START"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:cornerRadius="30dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/bottom_nav_custom" />
+
 </RelativeLayout>
