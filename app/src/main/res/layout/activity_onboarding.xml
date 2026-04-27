@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0F0A"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:background="@drawable/bg_circle_green"
+            android:padding="8dp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to Thryve"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:fontFamily="sans-serif-bold"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tell us about yourself to personalize your experience"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="8dp" />
+
+        <!-- Name Input -->
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_circle_dark_green"
+            android:hint="Your Name"
+            android:textColorHint="#555555"
+            android:textColor="#FFFFFF"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:inputType="textPersonName" />
+
+        <!-- Gender Selection -->
+        <RadioGroup
+            android:id="@+id/rgGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/rbMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:textColor="#FFFFFF"
+                android:checked="true"
+                android:buttonTint="#4CAF50" />
+
+            <RadioButton
+                android:id="@+id/rbFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="20dp"
+                android:buttonTint="#4CAF50" />
+
+            <RadioButton
+                android:id="@+id/rbOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="20dp"
+                android:buttonTint="#4CAF50" />
+        </RadioGroup>
+
+        <!-- Age Seek -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="32dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="AGE"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.1" />
+                <TextView
+                    android:id="@+id/tvAgeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25"
+                    android:textColor="#4CAF50"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-bold" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/seekAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="25"
+                android:progressTint="#4CAF50"
+                android:thumbTint="#4CAF50" />
+        </LinearLayout>
+
+        <!-- Height Seek -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="HEIGHT (CM)"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.1" />
+                <TextView
+                    android:id="@+id/tvHeightValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="175 cm"
+                    android:textColor="#4CAF50"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-bold" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/seekHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:max="250"
+                android:progress="175"
+                android:progressTint="#4CAF50"
+                android:thumbTint="#4CAF50" />
+        </LinearLayout>
+
+        <!-- Weight Seek -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="WEIGHT (KG)"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.1" />
+                <TextView
+                    android:id="@+id/tvWeightValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="70 kg"
+                    android:textColor="#4CAF50"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-bold" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/seekWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:max="200"
+                android:progress="70"
+                android:progressTint="#4CAF50"
+                android:thumbTint="#4CAF50" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnGetStarted"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="48dp"
+            android:text="GET STARTED"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-bold"
+            android:background="@drawable/bg_btn_green"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+</ScrollView>
