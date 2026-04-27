@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#050A08">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_back" app:tint="#FFFFFF"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:text="THRYVE" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold" android:letterSpacing="0.1"/>
+            </RelativeLayout>
+
+            <EditText
+                android:layout_width="match_parent" android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/search_bg"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="15dp"
+                android:hint="Search activities..."
+                android:paddingStart="20dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#4DFFFFFF" />
+
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="30dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recent Activities" android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View All" android:textColor="#00FF7F" android:textStyle="bold"/>
+            </RelativeLayout>
+
+            <GridLayout
+                android:id="@+id/activityGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:columnCount="2"
+                android:alignmentMode="alignMargins">
+
+                <include android:id="@+id/cardRunning" layout="@layout/item_activity_card" />
+                <include android:id="@+id/cardWalking" layout="@layout/item_activity_card" />
+                <include android:id="@+id/cardCycling" layout="@layout/item_activity_card" />
+                <include android:id="@+id/cardYoga" layout="@layout/item_activity_card" />
+                <include android:id="@+id/cardSwimming" layout="@layout/item_activity_card" />
+                <include android:id="@+id/cardHiking" layout="@layout/item_activity_card" />
+
+            </GridLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/recommended_gradient"
+                android:padding="20dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:text="▶  Quick Start"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:backgroundTint="#00FF7F"
+                    app:cornerRadius="30dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/bottom_nav_custom" android:layout_width="match_parent" android:layout_height="80dp" android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

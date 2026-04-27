@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dp"
+    android:layout_height="180dp"
+    android:layout_columnWeight="1"
+    android:layout_margin="8dp"
+    android:background="@drawable/card_bg_dark"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/activityIcon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/circle_icon_bg"
+        android:padding="14dp"
+        android:src="@drawable/ic_walking"
+        app:tint="#00FF7F" />
+
+    <TextView
+        android:id="@+id/activityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Running"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/activitySub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Outdoor / Indoor"
+        android:textColor="#80FFFFFF"
+        android:textSize="13sp" />
+</LinearLayout>

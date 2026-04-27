@@ -1,4 +1,4 @@
-package com.example.thryve;
+package com.saarthak.thryve;
 
 import org.junit.Test;
 

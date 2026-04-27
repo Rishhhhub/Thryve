@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.thryve"
+    namespace = "com.saarthak.thryve"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.thryve"
+        applicationId = "com.saarthak.Thryve"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

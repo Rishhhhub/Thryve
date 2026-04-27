@@ -1,9 +1,37 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Thryve" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.Thryve" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#00FF7F</item>
+        <item name="colorPrimaryVariant">#064E3B</item>
+        <item name="colorOnPrimary">#000000</item>
+
+        <item name="android:statusBarColor">#050A08</item>
+        <item name="android:windowBackground">#050A08</item>
     </style>
 
-    <style name="Theme.Thryve" parent="Base.Theme.Thryve" />
+    <style name="ActivityCardStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">180dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:background">@drawable/glass_card_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CircleIconStyle">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@drawable/circle_icon_bg</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:tint">#00FF7F</item>
+    </style>
+
+    <style name="ActivityTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
 </resources>

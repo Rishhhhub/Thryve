@@ -1,5 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-</resources>
+    <color name="thryve_bg">#0A0D0A</color>
+    <color name="thryve_neon">#19FF5E</color>
+    <color name="thryve_card">#1A1F1A</color>
+    <color name="thryve_rec_start">#0D3D1E</color>
+    <color name="thryve_rec_end">#05230F</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray_text">#8E8E8E</color>
+    <color name="thryve_orange">#E67E22</color> <color name="thryve_blue">#3498DB</color>   <color name="thryve_purple">#9B59B6</color> </resources>
