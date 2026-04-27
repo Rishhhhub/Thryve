@@ -19,15 +19,19 @@ public class MetricsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metrics);
 
-        // 1. Gender Spinner Fix (Text visible karne ke liye)
+        // 1. Gender Spinner Fix
         Spinner spinner = findViewById(R.id.genderSpinner);
-        String[] genders = {"Select Gender", "Male", "Female", "Other"};
+        String[] genders = {"Male", "Female", "Other"};
 
-        // Custom layout use kar rahe hain taaki dark background pe text dikhe
+// Yahan humne apna custom layout 'spinner_item' pass kiya hai
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, genders);
+                R.layout.spinner_item, genders);
+
+// Dropdown khulne par kaisa dikhega uske liye ye:
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+
 
         // 2. Height Slider Logic
         TextView heightDisplay = findViewById(R.id.heightDisplay);
