@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Thryve</string>
+    <string name="channel_id">thryve_run_channel</string>
+    <string name="channel_name">Run Tracking</string>
+    <string name="notification_title">Thryve is tracking your run</string>
+    <string name="notification_text">Tap to return to your run</string>
 </resources>
