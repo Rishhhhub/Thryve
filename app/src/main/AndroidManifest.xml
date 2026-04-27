@@ -22,7 +22,7 @@
         <!-- 🔴 GOOGLE MAPS API KEY (PUT YOUR KEY HERE) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBFSYKdfg1Mpr8oLDnlaosCcxOz4ReEa68"/>
+            android:value="${MAPS_API_KEY}"/>
 
         <!-- ── LAUNCHER ── -->
         <activity
@@ -33,6 +33,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+
             </intent-filter>
         </activity>
 
