@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.Thryve" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@color/thryve_bg</item>
         <item name="android:statusBarColor">@color/thryve_bg</item>
         <item name="android:navigationBarColor">@color/thryve_nav_bg</item>
+
+        <!-- From your friend -->
         <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Required for Material -->
         <item name="colorPrimary">@color/thryve_green</item>
         <item name="colorPrimaryDark">@color/thryve_bg</item>
         <item name="colorAccent">@color/thryve_green</item>
     </style>
 
-    <!-- Splash has its own solid BG so status bar blends in -->
+    <!-- Splash Theme -->
     <style name="Theme.Thryve.Splash" parent="Theme.Thryve">
         <item name="android:windowBackground">@color/thryve_bg</item>
     </style>
+
 </resources>
