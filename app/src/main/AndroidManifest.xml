@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Thryve">
         <activity
+            android:name=".MetricsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EmptyViews"
+            android:exported="false" />
+        <activity
             android:name=".LoginPage1"
             android:exported="false" />
         <activity
