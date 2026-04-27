@@ -1,129 +1,82 @@
 package com.example.thryve;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.thryve.ui.HeartRateBarView;
+import com.example.thryve.ui.TripleRingView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.Calendar;
 
 public class DashboardActivity extends AppCompatActivity {
-
-    private LinearLayout layoutRecovery;
-    private LinearLayout layoutStrain;
-    private LinearLayout navTrain;
-    private FloatingActionButton fab;
-    private TripleRingView tripleRingView;
-    private HeartRateBarView heartRateBarView;
-
-    // Sample data (replace with real data source later)
-    private int readinessScore = 84;
-    private int recoveryPercent = 85;
-    private int strainValue = 145;
-    private String sleepTime = "7h 48m";
-    private int heartRate = 72;
-    private int batteryPercent = 88;
-
-    // Ring colors
-    private static final int GREEN_COLOR  = 0xFF4CAF50;
-    private static final int ORANGE_COLOR = 0xFFFF9800;
-    private static final int BLUE_COLOR   = 0xFF2196F3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Hide action bar for full immersive feel
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_dashboard);
-
-        initViews();
-        populateData();
-        setupClickListeners();
+        loadUserData();
+        setupMockData();
+        setupNavigation();
     }
 
-    private void initViews() {
-        layoutRecovery   = findViewById(R.id.layoutRecovery);
-        layoutStrain     = findViewById(R.id.layoutStrain);
-        navTrain         = findViewById(R.id.navTrain);
-        fab              = findViewById(R.id.fab);
-        tripleRingView   = findViewById(R.id.tripleRingView);
-        heartRateBarView = findViewById(R.id.heartRateBarView);
+    private void loadUserData() {
+        SharedPreferences prefs = getSharedPreferences("thryve_prefs", MODE_PRIVATE);
+        String name = prefs.getString("user_name", "Athlete");
+        ((TextView) findViewById(R.id.tvUsername)).setText(name);
+
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        String greeting = hour < 12 ? "GOOD MORNING" : hour < 17 ? "GOOD AFTERNOON" : "GOOD EVENING";
+        ((TextView) findViewById(R.id.tvGreeting)).setText(greeting);
     }
 
-    private void populateData() {
-        // Readiness score
-        TextView tvReadiness = findViewById(R.id.tvReadinessScore);
-        tvReadiness.setText(String.valueOf(readinessScore));
+    private void setupMockData() {
+        TripleRingView ring = findViewById(R.id.tripleRingView);
+        ring.setRingValues(0.85f, 0.72f, 0.78f);
+        ring.setRingColors(0xFF4CAF50, 0xFFFF9800, 0xFF2196F3);
 
+        HeartRateBarView hrBar = findViewById(R.id.heartRateBarView);
+        hrBar.setData(new int[]{60, 75, 68, 80, 72, 65, 78, 72, 70, 74}, 72);
+    }
+
+    private void setupNavigation() {
         // Stats row
-        TextView tvRecovery = findViewById(R.id.tvRecovery);
-        tvRecovery.setText(recoveryPercent + "%");
+        findViewById(R.id.layoutRecovery).setOnClickListener(v ->
+                startActivity(new Intent(this, RecoveryDetailActivity.class)
+                        .putExtra("recovery_percent", 85)));
 
-        TextView tvStrain = findViewById(R.id.tvStrain);
-        tvStrain.setText(String.valueOf(strainValue));
+        findViewById(R.id.layoutStrain).setOnClickListener(v ->
+                startActivity(new Intent(this, StrainDetailActivity.class)
+                        .putExtra("strain_value", 145).putExtra("heart_rate", 72)));
 
-        TextView tvSleep = findViewById(R.id.tvSleep);
-        tvSleep.setText(sleepTime);
+        findViewById(R.id.layoutSleep).setOnClickListener(v ->
+                startActivity(new Intent(this, SleepActivity.class)));
 
-        // Heart rate
-        TextView tvHeartRate = findViewById(R.id.tvHeartRate);
-        tvHeartRate.setText(String.valueOf(heartRate));
+        // Quick action cards
+        findViewById(R.id.cardSteps).setOnClickListener(v ->
+                startActivity(new Intent(this, StepsActivity.class)));
 
-        // Battery
-        TextView tvBattery = findViewById(R.id.tvBatteryPercent);
-        tvBattery.setText(batteryPercent + "%");
+        findViewById(R.id.cardSleepSummary).setOnClickListener(v ->
+                startActivity(new Intent(this, SleepActivity.class)));
 
-        // Configure triple ring:
-        // outer = recovery (green), middle = strain (orange), inner = sleep (blue)
-        if (tripleRingView != null) {
-            tripleRingView.setRingValues(
-                    (float) recoveryPercent / 100f,   // green ring 0..1
-                    (float) strainValue / 200f,        // orange ring 0..1 (max assumed 200)
-                    7.8f / 10f                         // blue ring 0..1 (7h48m out of 10h)
-            );
-            tripleRingView.setRingColors(GREEN_COLOR, ORANGE_COLOR, BLUE_COLOR);
-        }
+        // START RUN button
+        ((Button) findViewById(R.id.btnStartRun)).setOnClickListener(v ->
+                startActivity(new Intent(this, RunActivity.class)));
 
-        // Heart rate bars – pass some dummy data
-        if (heartRateBarView != null) {
-            int[] bpmData = {60, 75, 68, 80, 72, 65, 78, 72, 70, 74};
-            heartRateBarView.setData(bpmData, heartRate);
-        }
-    }
+        // Bottom Nav
+        ((LinearLayout) findViewById(R.id.navJournal)).setOnClickListener(v ->
+                startActivity(new Intent(this, JournalActivity.class)));
+        ((LinearLayout) findViewById(R.id.navTrain)).setOnClickListener(v ->
+                startActivity(new Intent(this, StrainDetailActivity.class)));
+        ((LinearLayout) findViewById(R.id.navDevice)).setOnClickListener(v ->
+                startActivity(new Intent(this, DeviceActivity.class)));
 
-    private void setupClickListeners() {
-        // Recovery section → RecoveryDetailActivity
-        layoutRecovery.setOnClickListener(v -> openRecoveryDetail());
-
-        // Strain section → StrainDetailActivity
-        layoutStrain.setOnClickListener(v -> openStrainDetail());
-
-        // Train nav → StrainDetailActivity (shortcut)
-        navTrain.setOnClickListener(v -> openStrainDetail());
-
-        // FAB – could open a new workout log screen (stub)
-        fab.setOnClickListener(v -> {
-            // TODO: open workout logging screen
-        });
-    }
-
-    private void openStrainDetail() {
-        Intent intent = new Intent(DashboardActivity.this, StrainDetailActivity.class);
-        intent.putExtra("strain_value", strainValue);
-        intent.putExtra("heart_rate", heartRate);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-    }
-
-    private void openRecoveryDetail() {
-        Intent intent = new Intent(DashboardActivity.this, RecoveryDetailActivity.class);
-        intent.putExtra("recovery_percent", recoveryPercent);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        // FAB → Run
+        ((FloatingActionButton) findViewById(R.id.fab)).setOnClickListener(v ->
+                startActivity(new Intent(this, RunActivity.class)));
     }
 }

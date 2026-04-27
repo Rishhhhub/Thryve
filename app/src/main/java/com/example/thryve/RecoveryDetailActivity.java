@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.thryve.ui.HrvChartView;
+import com.example.thryve.ui.RecoveryRingView;
+
 public class RecoveryDetailActivity extends AppCompatActivity {
 
     private int recoveryPercent;

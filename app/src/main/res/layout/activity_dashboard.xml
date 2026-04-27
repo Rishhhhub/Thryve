@@ -79,7 +79,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <com.example.thryve.TripleRingView
+            <com.example.thryve.ui.TripleRingView
                 android:id="@+id/tripleRingView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -330,7 +330,7 @@
                 </LinearLayout>
 
                 <!-- Bar Chart Placeholder -->
-                <com.example.thryve.HeartRateBarView
+                <com.example.thryve.ui.HeartRateBarView
                     android:id="@+id/heartRateBarView"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"

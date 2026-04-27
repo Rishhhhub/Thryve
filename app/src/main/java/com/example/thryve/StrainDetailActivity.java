@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.thryve.ui.HrTimelineView;
+
 public class StrainDetailActivity extends AppCompatActivity {
 
     private int strainValue;
