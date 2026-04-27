@@ -61,6 +61,10 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Initialize Maps SDK explicitly
+        com.google.android.gms.maps.MapsInitializer.initialize(this, com.google.android.gms.maps.MapsInitializer.Renderer.LATEST, null);
+
         if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_run);
 
