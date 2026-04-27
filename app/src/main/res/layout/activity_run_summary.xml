@@ -46,7 +46,7 @@
                 android:layout_marginTop="8dp"
                 app:cardBackgroundColor="#111811" app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
-                <fragment
+                <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/summaryMap"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"

@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -61,6 +63,10 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Initialize Maps SDK explicitly
+        com.google.android.gms.maps.MapsInitializer.initialize(this, com.google.android.gms.maps.MapsInitializer.Renderer.LATEST, null);
+
         if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_run);
 
@@ -127,6 +133,15 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         if (hasLocationPermission()) {
             //noinspection MissingPermission
             googleMap.setMyLocationEnabled(true);
+            
+            // Immediately zoom to current location
+            FusedLocationProviderClient fusedClient = LocationServices.getFusedLocationProviderClient(this);
+            fusedClient.getLastLocation().addOnSuccessListener(this, loc -> {
+                if (loc != null) {
+                    LatLng current = new LatLng(loc.getLatitude(), loc.getLongitude());
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 17f));
+                }
+            });
         }
     }
 
