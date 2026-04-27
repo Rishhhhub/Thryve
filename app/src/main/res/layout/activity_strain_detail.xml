@@ -26,7 +26,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_back"
-            app:tint="#FFFFFF"
+            android:tint="#FFFFFF"
             android:padding="6dp" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_share"
-            app:tint="#AAAAAA"
+            android:tint="#AAAAAA"
             android:padding="6dp" />
     </LinearLayout>
 
@@ -132,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical"
+                        android:gravity="bottom"
                         android:layout_marginTop="4dp">
 
                         <TextView
@@ -252,7 +252,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/ic_flame"
-                            app:tint="#FF9800"
+                            android:tint="#FF9800"
                             android:background="@drawable/bg_circle_dark_orange"
                             android:padding="6dp" />
 
@@ -303,7 +303,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/ic_heart"
-                            app:tint="#E53935"
+                            android:tint="#E53935"
                             android:background="@drawable/bg_circle_dark_red"
                             android:padding="6dp" />
 
@@ -379,7 +379,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/ic_bolt"
-                        app:tint="#FFFFFF"
+                        android:tint="#FFFFFF"
                         android:layout_marginStart="12dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -412,7 +412,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_home"
-                app:tint="#4CAF50" />
+                android:tint="#4CAF50" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -435,7 +435,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_journal"
-                app:tint="#666666" />
+                android:tint="#666666" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -463,7 +463,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_train"
-                app:tint="#666666" />
+                android:tint="#666666" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -486,7 +486,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_device"
-                app:tint="#666666" />
+                android:tint="#666666" />
 
             <TextView
                 android:layout_width="wrap_content"

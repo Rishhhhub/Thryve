@@ -3,13 +3,15 @@ package com.example.thryve;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.view.View;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.thryve.ui.HeartRateBarView;
 import com.example.thryve.ui.TripleRingView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Calendar;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -19,6 +21,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_dashboard);
+
         loadUserData();
         setupMockData();
         setupNavigation();
@@ -27,16 +30,20 @@ public class DashboardActivity extends AppCompatActivity {
     private void loadUserData() {
         SharedPreferences prefs = getSharedPreferences("thryve_prefs", MODE_PRIVATE);
         String name = prefs.getString("user_name", "Athlete");
+
         TextView tvUsername = findViewById(R.id.tvUsername);
         if (tvUsername != null) tvUsername.setText(name);
 
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        String greeting = hour < 12 ? "GOOD MORNING" : hour < 17 ? "GOOD AFTERNOON" : "GOOD EVENING";
-        // Fixed: The layout uses a fixed string "GOOD MORNING" in a TextView, or might not have tvGreeting
-        // Let's check the layout IDs again or just skip if not found.
+        String greeting = hour < 12 ? "GOOD MORNING"
+                : hour < 17 ? "GOOD AFTERNOON"
+                : "GOOD EVENING";
+
+        // Optional if you add greeting TextView later
     }
 
     private void setupMockData() {
+
         TripleRingView ring = findViewById(R.id.tripleRingView);
         if (ring != null) {
             ring.setRingValues(0.85f, 0.72f, 0.78f);
@@ -50,33 +57,94 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void setupNavigation() {
-        // Stats row
-        LinearLayout layoutRecovery = findViewById(R.id.layoutRecovery);
+
+        // =======================
+        // STATS ROW
+        // =======================
+
+        View layoutRecovery = findViewById(R.id.layoutRecovery);
         if (layoutRecovery != null) {
             layoutRecovery.setOnClickListener(v ->
-                startActivity(new Intent(this, RecoveryDetailActivity.class)
-                        .putExtra("recovery_percent", 85)));
+                    startActivity(new Intent(this, RecoveryDetailActivity.class)
+                            .putExtra("recovery_percent", 85)));
         }
 
-        LinearLayout layoutStrain = findViewById(R.id.layoutStrain);
+        View layoutStrain = findViewById(R.id.layoutStrain);
         if (layoutStrain != null) {
             layoutStrain.setOnClickListener(v ->
-                startActivity(new Intent(this, StrainDetailActivity.class)
-                        .putExtra("strain_value", 145).putExtra("heart_rate", 72)));
+                    startActivity(new Intent(this, StrainDetailActivity.class)
+                            .putExtra("strain_value", 145)
+                            .putExtra("heart_rate", 72)));
         }
 
-        LinearLayout layoutSleep = findViewById(R.id.layoutSleep);
+        View layoutSleep = findViewById(R.id.layoutSleep);
         if (layoutSleep != null) {
-            layoutSleep.setOnClickListener(v -> {
-                startActivity(new Intent(this, SleepActivity.class));
+            layoutSleep.setOnClickListener(v ->
+                    startActivity(new Intent(this, SleepActivity.class)));
+        }
+
+        // =======================
+        // STEPS CARD
+        // =======================
+
+        View cardSteps = findViewById(R.id.cardSteps);
+        if (cardSteps != null) {
+            cardSteps.setOnClickListener(v ->
+                    startActivity(new Intent(this, StepsActivity.class)));
+        }
+
+        // =======================
+        // HEART RATE CARD (optional)
+        // =======================
+
+        View cardHeartRate = findViewById(R.id.cardHeartRate);
+        if (cardHeartRate != null) {
+            cardHeartRate.setOnClickListener(v -> {
+                // future feature
             });
         }
 
-        // FAB → Run
+        // =======================
+        // TOP BAR
+        // =======================
+
+        View notification = findViewById(R.id.imgNotification);
+        if (notification != null) {
+            notification.setOnClickListener(v -> {
+                // future feature
+            });
+        }
+
+        // =======================
+        // FLOATING BUTTON → RUN
+        // =======================
+
         FloatingActionButton fab = findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(v ->
-                startActivity(new Intent(this, RunActivity.class)));
+                    startActivity(new Intent(this, RunActivity.class)));
+        }
+
+        // =======================
+        // BOTTOM NAV
+        // =======================
+
+        View navJournal = findViewById(R.id.navJournal);
+        if (navJournal != null) {
+            navJournal.setOnClickListener(v ->
+                    startActivity(new Intent(this, JournalActivity.class)));
+        }
+
+        View navTrain = findViewById(R.id.navTrain);
+        if (navTrain != null) {
+            navTrain.setOnClickListener(v ->
+                    startActivity(new Intent(this, StrainDetailActivity.class)));
+        }
+
+        View navDevice = findViewById(R.id.navDevice);
+        if (navDevice != null) {
+            navDevice.setOnClickListener(v ->
+                    startActivity(new Intent(this, DeviceActivity.class)));
         }
     }
 }
