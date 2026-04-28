@@ -1,36 +1,28 @@
 package com.example.thryve;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.*;
+import android.util.Log;
+import android.widget.*;
+
+import com.google.android.gms.maps.GoogleMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class RunActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -39,17 +31,20 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private boolean isRunning = false;
     private long startTimeMs = 0L;
-    private long elapsedMs   = 0L;
+    private long elapsedMs = 0L;
     private double totalDistanceKm = 0.0;
     private Location lastLocation = null;
+
     private final List<LatLng> routePoints = new ArrayList<>();
 
     private GoogleMap googleMap;
+
     private TextView tvDuration, tvDistance, tvPace, tvCalories, tvRunStatus;
     private Button btnStartStop;
 
     private Handler timerHandler;
     private Runnable timerRunnable;
+
     private BroadcastReceiver locationReceiver;
 
     @Override
@@ -58,26 +53,23 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_run);
 
-        tvDuration  = findViewById(R.id.tvDuration);
-        tvDistance  = findViewById(R.id.tvDistance);
-        tvPace      = findViewById(R.id.tvPace);
-        tvCalories  = findViewById(R.id.tvCalories);
+        tvDuration = findViewById(R.id.tvDuration);
+        tvDistance = findViewById(R.id.tvDistance);
+        tvPace = findViewById(R.id.tvPace);
+        tvCalories = findViewById(R.id.tvCalories);
         tvRunStatus = findViewById(R.id.tvRunStatus);
         btnStartStop = findViewById(R.id.btnStartStop);
 
-        SupportMapFragment mapFrag = (SupportMapFragment)
-                getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFrag =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFrag != null) mapFrag.getMapAsync(this);
 
         timerHandler = new Handler(Looper.getMainLooper());
-        timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (isRunning) {
-                    elapsedMs = System.currentTimeMillis() - startTimeMs;
-                    tvDuration.setText(formatDuration(elapsedMs));
-                    timerHandler.postDelayed(this, 1000);
-                }
+        timerRunnable = () -> {
+            if (isRunning) {
+                elapsedMs = System.currentTimeMillis() - startTimeMs;
+                tvDuration.setText(formatDuration(elapsedMs));
+                timerHandler.postDelayed(timerRunnable, 1000);
             }
         };
 
@@ -86,62 +78,60 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onReceive(Context context, Intent intent) {
                 double lat = intent.getDoubleExtra(LocationTrackingService.EXTRA_LAT, 0);
                 double lng = intent.getDoubleExtra(LocationTrackingService.EXTRA_LNG, 0);
-                float  acc = intent.getFloatExtra(LocationTrackingService.EXTRA_ACC, 100);
-                if (acc <= 30) {
+                float acc = intent.getFloatExtra(LocationTrackingService.EXTRA_ACC, 100);
+
+                if (acc <= 50) {
                     onNewLocation(lat, lng);
                 }
             }
         };
 
         btnStartStop.setOnClickListener(v -> {
-            if (!isRunning) startRun(); else stopRun();
+            if (!isRunning) startRun();
+            else stopRun();
         });
 
         findViewById(R.id.btnBack).setOnClickListener(v -> {
             if (isRunning) {
-                Toast.makeText(this, "Stop the run before going back", Toast.LENGTH_SHORT).show();
-            } else {
-                finish();
-            }
+                Toast.makeText(this, "Stop the run first", Toast.LENGTH_SHORT).show();
+            } else finish();
         });
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
-        try {
-            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_dark));
-        } catch (Exception ignored) {}
         googleMap.getUiSettings().setZoomControlsEnabled(false);
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
         if (hasLocationPermission()) {
-            //noinspection MissingPermission
-            googleMap.setMyLocationEnabled(true);
+            try {
+                googleMap.setMyLocationEnabled(true);
+            } catch (SecurityException ignored) {}
         }
     }
 
+    @SuppressWarnings("UnspecifiedRegisterReceiverFlag")
     private void startRun() {
         if (!hasLocationPermission()) {
             requestLocationPermission();
             return;
         }
-        isRunning    = true;
-        startTimeMs  = System.currentTimeMillis();
-        elapsedMs    = 0L;
-        totalDistanceKm = 0.0;
+
+        isRunning = true;
+        startTimeMs = System.currentTimeMillis();
+        elapsedMs = 0;
+        totalDistanceKm = 0;
         routePoints.clear();
         lastLocation = null;
 
-        tvRunStatus.setText("● TRACKING");
         btnStartStop.setText("STOP RUN");
-        btnStartStop.setBackgroundResource(R.drawable.bg_btn_red);
 
-        Intent serviceIntent = new Intent(this, LocationTrackingService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
+        startService(new Intent(this, LocationTrackingService.class));
 
         IntentFilter filter = new IntentFilter(LocationTrackingService.ACTION_LOCATION_UPDATE);
-        if (android.os.Build.VERSION.SDK_INT >= 33) {
-            registerReceiver(locationReceiver, filter, Context.RECEIVER_EXPORTED);
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(locationReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
         } else {
             registerReceiver(locationReceiver, filter);
         }
@@ -150,6 +140,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void stopRun() {
+
         isRunning = false;
         timerHandler.removeCallbacks(timerRunnable);
 
@@ -157,59 +148,96 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
         try { unregisterReceiver(locationReceiver); } catch (Exception ignored) {}
 
-        tvRunStatus.setText("● COMPLETE");
-        btnStartStop.setText("START RUN");
-        btnStartStop.setBackgroundResource(R.drawable.bg_btn_green);
-
-        if (!routePoints.isEmpty()) {
-            ArrayList<Double> lats = new ArrayList<>(), lngs = new ArrayList<>();
-            for (LatLng p : routePoints) { lats.add(p.latitude); lngs.add(p.longitude); }
-
-            Intent summary = new Intent(this, RunSummaryActivity.class);
-            summary.putExtra("duration_ms",  elapsedMs);
-            summary.putExtra("distance_km",  totalDistanceKm);
-            summary.putExtra("calories",     (int)(totalDistanceKm * CALORIES_PER_KM));
-            summary.putExtra("lats",  lats);
-            summary.putExtra("lngs",  lngs);
-            startActivity(summary);
-        } else {
-            Toast.makeText(this, "No GPS data recorded", Toast.LENGTH_SHORT).show();
+        if (routePoints.isEmpty()) {
+            Toast.makeText(this, "No GPS data", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        // 🔥 CONVERT ROUTE → LIST
+        List<Double> lats = new ArrayList<>();
+        List<Double> lngs = new ArrayList<>();
+
+        for (LatLng p : routePoints) {
+            lats.add(p.latitude);
+            lngs.add(p.longitude);
+        }
+
+        // 🔥 SAVE WITH ROUTE
+        saveRunToFirebase(totalDistanceKm, elapsedMs, lats, lngs);
+
+        // 🔥 OPEN SUMMARY
+        Intent summary = new Intent(this, RunSummaryActivity.class);
+        summary.putExtra("duration_ms", elapsedMs);
+        summary.putExtra("distance_km", totalDistanceKm);
+        summary.putExtra("calories", (int)(totalDistanceKm * CALORIES_PER_KM));
+        summary.putExtra("lats", (ArrayList<Double>) lats);
+        summary.putExtra("lngs", (ArrayList<Double>) lngs);
+
+        startActivity(summary);
+    }
+
+    private void saveRunToFirebase(double distance, long duration,
+                                   List<Double> lats, List<Double> lngs) {
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (auth.getCurrentUser() == null) {
+            auth.signInAnonymously()
+                    .addOnSuccessListener(r ->
+                            saveRunWithUser(db, r.getUser().getUid(), distance, duration, lats, lngs));
+            return;
+        }
+
+        saveRunWithUser(db, auth.getCurrentUser().getUid(), distance, duration, lats, lngs);
+    }
+
+    private void saveRunWithUser(FirebaseFirestore db, String userId,
+                                 double distance, long duration,
+                                 List<Double> lats, List<Double> lngs) {
+
+        Map<String, Object> run = new HashMap<>();
+        run.put("distance", distance);
+        run.put("duration_sec", duration / 1000);
+        run.put("timestamp", Timestamp.now());
+        run.put("lats", lats);
+        run.put("lngs", lngs);
+
+        db.collection("users")
+                .document(userId)
+                .collection("runs")
+                .add(run)
+                .addOnSuccessListener(d -> Log.d("RUN_SAVE", "Saved"))
+                .addOnFailureListener(e -> Log.e("RUN_SAVE", "Error", e));
     }
 
     private void onNewLocation(double lat, double lng) {
+
         LatLng newPoint = new LatLng(lat, lng);
 
         if (lastLocation != null) {
-            float[] result = new float[1];
+            float[] res = new float[1];
             Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(),
-                    lat, lng, result);
-            double segKm = result[0] / 1000.0;
-            totalDistanceKm += segKm;
+                    lat, lng, res);
+            totalDistanceKm += res[0] / 1000.0;
         }
 
         routePoints.add(newPoint);
-        tvDistance.setText(String.format(Locale.US, "%.2f", totalDistanceKm));
 
-        if (totalDistanceKm > 0.05 && elapsedMs > 0) {
-            double paceSecPerKm = (elapsedMs / 1000.0) / totalDistanceKm;
-            int paceMin = (int) paceSecPerKm / 60;
-            int paceSec = (int) paceSecPerKm % 60;
-            tvPace.setText(String.format(Locale.US, "%d:%02d", paceMin, paceSec));
-        }
+        tvDistance.setText(String.format(Locale.US, "%.2f km", totalDistanceKm));
 
-        tvCalories.setText(String.valueOf((int)(totalDistanceKm * CALORIES_PER_KM)));
-
-        if (googleMap != null && routePoints.size() >= 2) {
+        if (googleMap != null) {
             googleMap.addPolyline(new PolylineOptions()
                     .addAll(routePoints)
-                    .color(Color.parseColor("#4CAF50"))
+                    .color(Color.GREEN)
                     .width(8f));
+
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPoint, 17f));
         }
 
         Location loc = new Location("gps");
-        loc.setLatitude(lat); loc.setLongitude(lng);
+        loc.setLatitude(lat);
+        loc.setLongitude(lng);
         lastLocation = loc;
     }
 
@@ -220,38 +248,22 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void requestLocationPermission() {
         ActivityCompat.requestPermissions(this,
-                new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                }, PERMISSION_REQUEST_CODE);
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_REQUEST_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int req, @NonNull String[] perms,
-                                           @NonNull int[] results) {
-        super.onRequestPermissionsResult(req, perms, results);
-        if (req == PERMISSION_REQUEST_CODE &&
-                results.length > 0 &&
-                results[0] == PackageManager.PERMISSION_GRANTED) {
+                                           @NonNull int[] res) {
+        super.onRequestPermissionsResult(req, perms, res);
+        if (req == PERMISSION_REQUEST_CODE && res.length > 0 &&
+                res[0] == PackageManager.PERMISSION_GRANTED) {
             startRun();
-        } else {
-            Toast.makeText(this, "Location permission required to track run",
-                    Toast.LENGTH_LONG).show();
         }
     }
 
     private String formatDuration(long ms) {
         long s = ms / 1000;
         return String.format(Locale.US, "%02d:%02d:%02d", s/3600, (s%3600)/60, s%60);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (isRunning) {
-            timerHandler.removeCallbacks(timerRunnable);
-            stopService(new Intent(this, LocationTrackingService.class));
-            try { unregisterReceiver(locationReceiver); } catch (Exception ignored) {}
-        }
     }
 }

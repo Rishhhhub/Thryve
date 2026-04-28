@@ -3,6 +3,7 @@ package com.example.thryve;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,8 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.thryve.ui.HeartRateBarView;
 import com.example.thryve.ui.TripleRingView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -25,6 +28,12 @@ public class DashboardActivity extends AppCompatActivity {
         loadUserData();
         setupMockData();
         setupNavigation();
+
+        // 🔥 FIREBASE TEST (WITH LOGS)
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Log.d("FIREBASE_TEST", "Attempting write...");
+
     }
 
     private void loadUserData() {
@@ -38,8 +47,6 @@ public class DashboardActivity extends AppCompatActivity {
         String greeting = hour < 12 ? "GOOD MORNING"
                 : hour < 17 ? "GOOD AFTERNOON"
                 : "GOOD EVENING";
-
-        // Optional if you add greeting TextView later
     }
 
     private void setupMockData() {
@@ -57,10 +64,6 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void setupNavigation() {
-
-        // =======================
-        // STATS ROW
-        // =======================
 
         View layoutRecovery = findViewById(R.id.layoutRecovery);
         if (layoutRecovery != null) {
@@ -83,19 +86,11 @@ public class DashboardActivity extends AppCompatActivity {
                     startActivity(new Intent(this, SleepActivity.class)));
         }
 
-        // =======================
-        // STEPS CARD
-        // =======================
-
         View cardSteps = findViewById(R.id.cardSteps);
         if (cardSteps != null) {
             cardSteps.setOnClickListener(v ->
                     startActivity(new Intent(this, StepsActivity.class)));
         }
-
-        // =======================
-        // HEART RATE CARD (optional)
-        // =======================
 
         View cardHeartRate = findViewById(R.id.cardHeartRate);
         if (cardHeartRate != null) {
@@ -104,10 +99,6 @@ public class DashboardActivity extends AppCompatActivity {
             });
         }
 
-        // =======================
-        // TOP BAR
-        // =======================
-
         View notification = findViewById(R.id.imgNotification);
         if (notification != null) {
             notification.setOnClickListener(v -> {
@@ -115,19 +106,11 @@ public class DashboardActivity extends AppCompatActivity {
             });
         }
 
-        // =======================
-        // FLOATING BUTTON → RUN
-        // =======================
-
         FloatingActionButton fab = findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(v ->
                     startActivity(new Intent(this, RunActivity.class)));
         }
-
-        // =======================
-        // BOTTOM NAV
-        // =======================
 
         View navJournal = findViewById(R.id.navJournal);
         if (navJournal != null) {
@@ -138,7 +121,7 @@ public class DashboardActivity extends AppCompatActivity {
         View navTrain = findViewById(R.id.navTrain);
         if (navTrain != null) {
             navTrain.setOnClickListener(v ->
-                    startActivity(new Intent(this, StrainDetailActivity.class)));
+                    startActivity(new Intent(this, HistoryActivity.class)));
         }
 
         View navDevice = findViewById(R.id.navDevice);

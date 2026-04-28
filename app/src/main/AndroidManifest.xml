@@ -52,7 +52,7 @@
         <!-- ── EXTRA ── -->
         <activity android:name=".JournalActivity" android:exported="false" android:screenOrientation="portrait"/>
         <activity android:name=".DeviceActivity" android:exported="false" android:screenOrientation="portrait"/>
-
+        <activity android:name=".HistoryActivity"/>
         <!-- ── LOCATION SERVICE ── -->
         <service
             android:name=".LocationTrackingService"
