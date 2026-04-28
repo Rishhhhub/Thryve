@@ -22,7 +22,6 @@ public class RunAdapter extends RecyclerView.Adapter<RunAdapter.ViewHolder> {
         void onClick(RunModel run);
     }
 
-    // 🔥 Constructor (MATCHES your HistoryActivity)
     public RunAdapter(List<RunModel> runs, OnItemClickListener listener) {
         this.runs = runs;
         this.listener = listener;
@@ -40,24 +39,24 @@ public class RunAdapter extends RecyclerView.Adapter<RunAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RunModel run = runs.get(position);
 
-        // 🔢 Index
+        //  Index
         holder.tvIndex.setText("#" + (position + 1) + " RUN");
 
-        // 📏 Distance
+        //  Distance
         holder.tvDistance.setText(String.format(Locale.US, "%.2f km", run.distance));
 
-        // ⏱ Duration
+        //  Duration
         long sec = run.duration_sec;
         holder.tvDuration.setText(String.format(Locale.US, "%02d:%02d",
                 sec / 60, sec % 60));
 
-        // 📅 Date
+        // Date
         if (run.timestamp != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US);
             holder.tvDate.setText(sdf.format(run.timestamp.toDate()));
         }
 
-        // 🔥 Click
+        //  Click
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onClick(run);

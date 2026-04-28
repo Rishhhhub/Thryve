@@ -53,7 +53,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         loadRuns();
 
-        // 🔙 Optional back button (only if exists in XML)
         if (findViewById(R.id.btnBack) != null) {
             findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         }
