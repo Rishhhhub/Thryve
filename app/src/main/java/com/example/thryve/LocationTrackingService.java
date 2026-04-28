@@ -21,10 +21,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 
-/**
- * Foreground service that collects GPS coordinates while a run is active.
- * Broadcasts each new location to RunActivity via a local broadcast.
- */
+
 public class LocationTrackingService extends Service {
 
     public static final String ACTION_LOCATION_UPDATE = "com.example.thryve.LOCATION_UPDATE";

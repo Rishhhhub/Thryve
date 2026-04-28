@@ -32,6 +32,13 @@ public class DashboardActivity extends AppCompatActivity {
         Log.d("FIREBASE_TEST", "Attempting write...");
     }
 
+    // 🔥 IMPORTANT → updates UI after coming back from Profile
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUserData();
+    }
+
     private void loadUserData() {
         SharedPreferences prefs = getSharedPreferences("thryve_prefs", MODE_PRIVATE);
         String name = prefs.getString("user_name", "Athlete");
@@ -43,6 +50,9 @@ public class DashboardActivity extends AppCompatActivity {
         String greeting = hour < 12 ? "GOOD MORNING"
                 : hour < 17 ? "GOOD AFTERNOON"
                 : "GOOD EVENING";
+
+        TextView tvGreeting = findViewById(R.id.tvGreeting);
+        if (tvGreeting != null) tvGreeting.setText(greeting);
     }
 
     private void setupMockData() {
@@ -60,6 +70,22 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void setupNavigation() {
+
+        // 🔥 NEW → Avatar opens Profile
+        View imgAvatar = findViewById(R.id.imgAvatar);
+        if (imgAvatar != null) {
+            imgAvatar.setOnClickListener(v ->
+                    startActivity(new Intent(this, ProfileActivity.class)));
+        }
+
+        // 🔥 NEW → Heart Rate card opens Health screen
+        View cardHeartRate = findViewById(R.id.cardHeartRate);
+        if (cardHeartRate != null) {
+            cardHeartRate.setOnClickListener(v ->
+                    startActivity(new Intent(this, HealthActivity.class)));
+        }
+
+        // EXISTING LOGIC (UNCHANGED)
 
         View layoutRecovery = findViewById(R.id.layoutRecovery);
         if (layoutRecovery != null) {
@@ -88,13 +114,6 @@ public class DashboardActivity extends AppCompatActivity {
                     startActivity(new Intent(this, StepsActivity.class)));
         }
 
-        View cardHeartRate = findViewById(R.id.cardHeartRate);
-        if (cardHeartRate != null) {
-            cardHeartRate.setOnClickListener(v -> {
-                // future feature
-            });
-        }
-
         View notification = findViewById(R.id.imgNotification);
         if (notification != null) {
             notification.setOnClickListener(v -> {
@@ -102,17 +121,15 @@ public class DashboardActivity extends AppCompatActivity {
             });
         }
 
-        // 🔥 ONE COMMON CLICK HANDLER (IMPORTANT)
+        // 🔥 RUN BUTTON (COMMON HANDLER)
         View.OnClickListener startRunClick = v ->
                 startActivity(new Intent(this, RunActivity.class));
 
-        // ➕ FAB BUTTON
         FloatingActionButton fab = findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(startRunClick);
         }
 
-        // 🟢 GREEN START RUN BUTTON
         View btnStartRun = findViewById(R.id.btnStartRun);
         if (btnStartRun != null) {
             btnStartRun.setOnClickListener(startRunClick);
