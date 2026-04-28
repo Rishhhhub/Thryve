@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.thryve">
 
     <!-- ── PERMISSIONS ── -->
@@ -8,7 +7,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+
+    <!-- (Optional: add later if needed) -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/> -->
+    <!-- <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/> -->
 
     <application
         android:allowBackup="true"
@@ -32,27 +35,28 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+
             </intent-filter>
         </activity>
 
         <!-- ── CORE FLOW ── -->
-        <activity android:name=".OnboardingActivity" android:exported="false" android:screenOrientation="portrait"/>
-        <activity android:name=".DashboardActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".OnboardingActivity" android:exported="false"/>
+        <activity android:name=".DashboardActivity" android:exported="false"/>
 
         <!-- ── DETAILS ── -->
-        <activity android:name=".StrainDetailActivity" android:exported="false" android:screenOrientation="portrait"/>
-        <activity android:name=".RecoveryDetailActivity" android:exported="false" android:screenOrientation="portrait"/>
-        <activity android:name=".StepsActivity" android:exported="false" android:screenOrientation="portrait"/>
-        <activity android:name=".SleepActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".StrainDetailActivity" android:exported="false"/>
+        <activity android:name=".RecoveryDetailActivity" android:exported="false"/>
+        <activity android:name=".StepsActivity" android:exported="false"/>
+        <activity android:name=".SleepActivity" android:exported="false"/>
 
         <!-- ── RUN FEATURE ── -->
-        <activity android:name=".RunActivity" android:exported="false" android:screenOrientation="portrait"/>
-        <activity android:name=".RunSummaryActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".RunActivity" android:exported="false"/>
+        <activity android:name=".RunSummaryActivity" android:exported="false"/>
 
         <!-- ── EXTRA ── -->
-        <activity android:name=".JournalActivity" android:exported="false" android:screenOrientation="portrait"/>
-        <activity android:name=".DeviceActivity" android:exported="false" android:screenOrientation="portrait"/>
-        <activity android:name=".HistoryActivity"/>
+        <activity android:name=".JournalActivity" android:exported="false"/>
+        <activity android:name=".DeviceActivity" android:exported="false"/>
+
         <!-- ── LOCATION SERVICE ── -->
         <service
             android:name=".LocationTrackingService"
