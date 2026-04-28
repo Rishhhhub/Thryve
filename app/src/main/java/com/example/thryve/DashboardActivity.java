@@ -15,7 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -29,11 +28,8 @@ public class DashboardActivity extends AppCompatActivity {
         setupMockData();
         setupNavigation();
 
-        // 🔥 FIREBASE TEST (WITH LOGS)
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         Log.d("FIREBASE_TEST", "Attempting write...");
-
     }
 
     private void loadUserData() {
@@ -106,10 +102,20 @@ public class DashboardActivity extends AppCompatActivity {
             });
         }
 
+        // 🔥 ONE COMMON CLICK HANDLER (IMPORTANT)
+        View.OnClickListener startRunClick = v ->
+                startActivity(new Intent(this, RunActivity.class));
+
+        // ➕ FAB BUTTON
         FloatingActionButton fab = findViewById(R.id.fab);
         if (fab != null) {
-            fab.setOnClickListener(v ->
-                    startActivity(new Intent(this, RunActivity.class)));
+            fab.setOnClickListener(startRunClick);
+        }
+
+        // 🟢 GREEN START RUN BUTTON
+        View btnStartRun = findViewById(R.id.btnStartRun);
+        if (btnStartRun != null) {
+            btnStartRun.setOnClickListener(startRunClick);
         }
 
         View navJournal = findViewById(R.id.navJournal);

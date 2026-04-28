@@ -153,7 +153,6 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             return;
         }
 
-        // 🔥 CONVERT ROUTE → LIST
         List<Double> lats = new ArrayList<>();
         List<Double> lngs = new ArrayList<>();
 
@@ -162,10 +161,8 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             lngs.add(p.longitude);
         }
 
-        // 🔥 SAVE WITH ROUTE
         saveRunToFirebase(totalDistanceKm, elapsedMs, lats, lngs);
 
-        // 🔥 OPEN SUMMARY
         Intent summary = new Intent(this, RunSummaryActivity.class);
         summary.putExtra("duration_ms", elapsedMs);
         summary.putExtra("distance_km", totalDistanceKm);
