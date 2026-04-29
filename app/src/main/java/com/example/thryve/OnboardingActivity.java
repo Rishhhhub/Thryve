@@ -23,12 +23,13 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 public class OnboardingActivity extends AppCompatActivity {
 
     private EditText etName;
     private SeekBar seekAge, seekHeight, seekWeight;
-    private TextView tvAgeValue, tvHeightValue, tvWeightValue;
+    private TextView tvAgeValue, tvHeightValue, tvWeightValue, tvBMI;
     private RadioGroup rgGender;
     private ImageView imgEditAvatar;
     private Uri imageUri;
@@ -55,8 +56,11 @@ public class OnboardingActivity extends AppCompatActivity {
         tvAgeValue = findViewById(R.id.tvAgeValue);
         tvHeightValue = findViewById(R.id.tvHeightValue);
         tvWeightValue = findViewById(R.id.tvWeightValue);
+        tvBMI = findViewById(R.id.tvBMI);
         rgGender = findViewById(R.id.rgGender);
         imgEditAvatar = findViewById(R.id.imgEditAvatar);
+
+        updateBMI();
 
         seekAge.setOnSeekBarChangeListener(new SimpleSeekListener() {
             public void onProgressChanged(SeekBar s, int p, boolean u) { tvAgeValue.setText(String.valueOf(p)); }
@@ -66,6 +70,16 @@ public class OnboardingActivity extends AppCompatActivity {
         });
         seekWeight.setOnSeekBarChangeListener(new SimpleSeekListener() {
             public void onProgressChanged(SeekBar s, int p, boolean u) { tvWeightValue.setText(p + " kg"); }
+            public void onProgressChanged(SeekBar s, int p, boolean u) {
+                tvHeightValue.setText(p + " cm");
+                updateBMI();
+            }
+        });
+        seekWeight.setOnSeekBarChangeListener(new SimpleSeekListener() {
+            public void onProgressChanged(SeekBar s, int p, boolean u) {
+                tvWeightValue.setText(p + " kg");
+                updateBMI();
+            }
         });
     }
 
@@ -145,6 +159,19 @@ public class OnboardingActivity extends AppCompatActivity {
 
     private final ActivityResultLauncher<String> requestCameraLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), is -> { if(is) openCamera(); });
     private final ActivityResultLauncher<String> requestGalleryLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), is -> { if(is) openGallery(); });
+
+    private void updateBMI() {
+        int weight = seekWeight.getProgress();
+        int heightCm = seekHeight.getProgress();
+        
+        if (heightCm > 0) {
+            double heightM = heightCm / 100.0;
+            double bmi = weight / (heightM * heightM);
+            tvBMI.setText(String.format(Locale.US, "%.1f", bmi));
+        } else {
+            tvBMI.setText("--");
+        }
+    }
 
     private void saveAndProceed() {
         SharedPreferences prefs = getSharedPreferences("thryve_prefs", MODE_PRIVATE);
