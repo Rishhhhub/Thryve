@@ -151,25 +151,29 @@ public class ProfileActivity extends AppCompatActivity {
     private final ActivityResultLauncher<String> requestGalleryLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), is -> { if(is) openGallery(); });
 
     private void saveProfile() {
-        String newName = etName.getText().toString();
-        int newAge;
-        int newWeight;
         try {
-            newAge = Integer.parseInt(etAge.getText().toString());
-            newWeight = Integer.parseInt(etWeight.getText().toString());
-        } catch (NumberFormatException e) {
-            newAge = 25;
-            newWeight = 70;
-        }
+            String newName = etName.getText().toString();
+            int newAge = Integer.parseInt(etAge.getText().toString());
+            int newWeight = Integer.parseInt(etWeight.getText().toString());
+            int newHeight = Integer.parseInt(etHeight.getText().toString());
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("user_name", newName);
-        editor.putInt("user_age", newAge);
-        editor.putInt("user_weight", newWeight);
-        if (currentImagePath != null) {
-            editor.putString("profile_path", currentImagePath);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("user_name", newName);
+            editor.putInt("user_age", newAge);
+            editor.putInt("user_weight", newWeight);
+            editor.putInt("user_height", newHeight);
+            if (currentImagePath != null) {
+                editor.putString("profile_path", currentImagePath);
+            }
+            editor.apply();
+
+            Toast.makeText(this, "Profile Updated!", Toast.LENGTH_SHORT).show();
+            finish(); // Back to dashboard
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Please enter valid numbers", Toast.LENGTH_SHORT).show();
         }
-        editor.apply();
+    }
+    
     private void updateBMI() {
         try {
             int weight = Integer.parseInt(etWeight.getText().toString());
@@ -187,24 +191,5 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void saveProfile() {
-        try {
-            String newName = etName.getText().toString();
-            int newAge = Integer.parseInt(etAge.getText().toString());
-            int newWeight = Integer.parseInt(etWeight.getText().toString());
-            int newHeight = Integer.parseInt(etHeight.getText().toString());
 
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("user_name", newName);
-            editor.putInt("user_age", newAge);
-            editor.putInt("user_weight", newWeight);
-            editor.putInt("user_height", newHeight);
-            editor.apply();
-
-            Toast.makeText(this, "Profile Updated!", Toast.LENGTH_SHORT).show();
-            finish(); // Back to dashboard
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Please enter valid numbers", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

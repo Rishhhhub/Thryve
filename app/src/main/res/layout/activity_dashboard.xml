@@ -342,19 +342,8 @@
         <LinearLayout android:id="@+id/navTrain" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
             <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_train" app:tint="#666666"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TRAIN" android:textColor="#666666" android:textSize="9sp" android:layout_marginTop="2dp"/>
-
-        <FrameLayout android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <LinearLayout android:id="@+id/navHistory"
-            android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                android:src="@drawable/ic_train" android:tint="#666666"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="HISTORY" android:textColor="#666666"
-                android:textSize="9sp" android:layout_marginTop="2dp"/>
         </LinearLayout>
+        
         <LinearLayout android:id="@+id/navDevice" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
             <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_device" app:tint="#666666"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DEVICE" android:textColor="#666666" android:textSize="9sp" android:layout_marginTop="2dp"/>

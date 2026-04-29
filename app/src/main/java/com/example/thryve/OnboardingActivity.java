@@ -66,10 +66,6 @@ public class OnboardingActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar s, int p, boolean u) { tvAgeValue.setText(String.valueOf(p)); }
         });
         seekHeight.setOnSeekBarChangeListener(new SimpleSeekListener() {
-            public void onProgressChanged(SeekBar s, int p, boolean u) { tvHeightValue.setText(p + " cm"); }
-        });
-        seekWeight.setOnSeekBarChangeListener(new SimpleSeekListener() {
-            public void onProgressChanged(SeekBar s, int p, boolean u) { tvWeightValue.setText(p + " kg"); }
             public void onProgressChanged(SeekBar s, int p, boolean u) {
                 tvHeightValue.setText(p + " cm");
                 updateBMI();
