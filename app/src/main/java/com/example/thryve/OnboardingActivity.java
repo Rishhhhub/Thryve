@@ -110,9 +110,11 @@ public class OnboardingActivity extends AppCompatActivity {
             File photoFile = File.createTempFile("PROFILE_", ".jpg", storageDir);
             imageUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", photoFile);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             cameraLauncher.launch(intent);
         } catch (Exception ex) {
             ex.printStackTrace();
+            android.widget.Toast.makeText(this, "Camera error: " + ex.getMessage(), android.widget.Toast.LENGTH_LONG).show();
         }
     }
 
