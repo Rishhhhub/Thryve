@@ -78,7 +78,12 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void setupNavigation() {
         if (imgAvatar != null) {
-            imgAvatar.setOnClickListener(v -> startActivity(new Intent(this, OnboardingActivity.class)));
+            imgAvatar.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        }
+
+        View cardHeartRate = findViewById(R.id.cardHeartRate);
+        if (cardHeartRate != null) {
+            cardHeartRate.setOnClickListener(v -> startActivity(new Intent(this, HealthActivity.class)));
         }
 
         View.OnClickListener startRunClick = v -> startActivity(new Intent(this, RunActivity.class));
