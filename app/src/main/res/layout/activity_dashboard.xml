@@ -31,7 +31,7 @@
                     android:layout_width="44dp" android:layout_height="44dp"
                     android:src="@drawable/ic_run"
                     android:background="@drawable/bg_circle_green"
-                    android:padding="10dp" android:tint="#4CAF50"/>
+                    android:padding="10dp" app:tint="#4CAF50"/>
 
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                     android:layout_weight="1" android:orientation="vertical"
@@ -48,7 +48,7 @@
 
                 <ImageView android:id="@+id/imgNotification"
                     android:layout_width="36dp" android:layout_height="36dp"
-                    android:src="@drawable/ic_bell" android:padding="6dp" android:tint="#AAAAAA"/>
+                    android:src="@drawable/ic_bell" android:padding="6dp" app:tint="#AAAAAA"/>
             </LinearLayout>
 
             <!-- READINESS RING -->
@@ -162,7 +162,7 @@
                             android:layout_weight="1" android:text="LIVE HEART RATE"
                             android:textColor="#888888" android:textSize="11sp"/>
                         <ImageView android:layout_width="20dp" android:layout_height="20dp"
-                            android:src="@drawable/ic_heart" android:tint="#E53935"/>
+                            android:src="@drawable/ic_heart" app:tint="#E53935"/>
                     </LinearLayout>
                     <LinearLayout android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -203,7 +203,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" android:padding="14dp">
                         <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                            android:src="@drawable/ic_run" android:tint="#4CAF50"/>
+                            android:src="@drawable/ic_run" app:tint="#4CAF50"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:text="STEPS" android:textColor="#888888"
                             android:textSize="10sp" android:layout_marginTop="6dp"/>
@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" android:padding="14dp">
                         <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                            android:src="@drawable/ic_sleep" android:tint="#2196F3"/>
+                            android:src="@drawable/ic_sleep" app:tint="#2196F3"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:text="SLEEP" android:textColor="#888888"
                             android:textSize="10sp" android:layout_marginTop="6dp"/>
@@ -275,7 +275,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal" android:gravity="center_vertical">
                             <ImageView android:layout_width="20dp" android:layout_height="20dp"
-                                android:src="@drawable/ic_battery" android:tint="#4CAF50"/>
+                                android:src="@drawable/ic_battery" app:tint="#4CAF50"/>
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="BAND V4" android:textColor="#888888"
                                 android:textSize="10sp" android:layout_marginStart="6dp"/>
@@ -303,7 +303,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal" android:gravity="center_vertical">
                             <ImageView android:layout_width="20dp" android:layout_height="20dp"
-                                android:src="@drawable/ic_sync" android:tint="#4CAF50"/>
+                                android:src="@drawable/ic_sync" app:tint="#4CAF50"/>
                             <View android:layout_width="0dp" android:layout_height="1dp"
                                 android:layout_weight="1"/>
                             <View android:layout_width="8dp" android:layout_height="8dp"
@@ -338,7 +338,7 @@
             android:layout_width="0dp" android:layout_height="match_parent"
             android:layout_weight="1" android:orientation="vertical" android:gravity="center">
             <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                android:src="@drawable/ic_home" android:tint="#4CAF50"/>
+                android:src="@drawable/ic_home" app:tint="#4CAF50"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="HOME" android:textColor="#4CAF50"
                 android:textSize="9sp" android:layout_marginTop="2dp"/>
@@ -348,7 +348,7 @@
             android:layout_width="0dp" android:layout_height="match_parent"
             android:layout_weight="1" android:orientation="vertical" android:gravity="center">
             <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                android:src="@drawable/ic_journal" android:tint="#666666"/>
+                android:src="@drawable/ic_journal" app:tint="#666666"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="JOURNAL" android:textColor="#666666"
                 android:textSize="9sp" android:layout_marginTop="2dp"/>
@@ -361,7 +361,7 @@
             android:layout_width="0dp" android:layout_height="match_parent"
             android:layout_weight="1" android:orientation="vertical" android:gravity="center">
             <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                android:src="@drawable/ic_train" android:tint="#666666"/>
+                android:src="@drawable/ic_train" app:tint="#666666"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="TRAIN" android:textColor="#666666"
                 android:textSize="9sp" android:layout_marginTop="2dp"/>
@@ -371,7 +371,7 @@
             android:layout_width="0dp" android:layout_height="match_parent"
             android:layout_weight="1" android:orientation="vertical" android:gravity="center">
             <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                android:src="@drawable/ic_device" android:tint="#666666"/>
+                android:src="@drawable/ic_device" app:tint="#666666"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="DEVICE" android:textColor="#666666"
                 android:textSize="9sp" android:layout_marginTop="2dp"/>

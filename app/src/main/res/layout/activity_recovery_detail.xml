@@ -26,7 +26,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_back"
-            android:tint="#FFFFFF"
+            app:tint="#FFFFFF"
             android:padding="6dp" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_share"
-            android:tint="#AAAAAA"
+            app:tint="#AAAAAA"
             android:padding="6dp" />
     </LinearLayout>
 
@@ -133,7 +133,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_bolt"
-                        android:tint="#4CAF50" />
+                        app:tint="#4CAF50" />
 
                     <TextView
                         android:id="@+id/tvStatusMessage"
@@ -256,7 +256,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_home"
-                android:tint="#4CAF50" />
+                app:tint="#4CAF50" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -279,7 +279,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_journal"
-                android:tint="#666666" />
+                app:tint="#666666" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -307,7 +307,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_train"
-                android:tint="#666666" />
+                app:tint="#666666" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -330,7 +330,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_device"
-                android:tint="#666666" />
+                app:tint="#666666" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -135,8 +135,11 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             googleMap.setMyLocationEnabled(true);
             
             // Immediately zoom to current location
+            @SuppressWarnings("MissingPermission")
             FusedLocationProviderClient fusedClient = LocationServices.getFusedLocationProviderClient(this);
-            fusedClient.getLastLocation().addOnSuccessListener(this, loc -> {
+            @SuppressWarnings("MissingPermission")
+            com.google.android.gms.tasks.Task<Location> locationTask = fusedClient.getLastLocation();
+            locationTask.addOnSuccessListener(this, loc -> {
                 if (loc != null) {
                     LatLng current = new LatLng(loc.getLatitude(), loc.getLongitude());
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 17f));
@@ -168,7 +171,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Register receiver
         IntentFilter filter = new IntentFilter(LocationTrackingService.ACTION_LOCATION_UPDATE);
-        registerReceiver(locationReceiver, filter, RECEIVER_EXPORTED);
+        ContextCompat.registerReceiver(this, locationReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
 
         // Start timer
         timerHandler.post(timerRunnable);

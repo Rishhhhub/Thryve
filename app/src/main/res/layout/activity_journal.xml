@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent">
         <ImageView android:id="@+id/btnBack"
             android:layout_width="36dp" android:layout_height="36dp"
-            android:src="@drawable/ic_back" android:tint="#FFFFFF" android:padding="6dp"/>
+            android:src="@drawable/ic_back" app:tint="#FFFFFF" android:padding="6dp"/>
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
             android:layout_weight="1" android:text="Daily Journal"
             android:textColor="#FFFFFF" android:textSize="18sp"
@@ -59,7 +59,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                        android:src="@drawable/ic_bolt" android:tint="#2196F3"
+                        android:src="@drawable/ic_bolt" app:tint="#2196F3"
                         android:background="@drawable/bg_circle_dark_blue" android:padding="6dp"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"
@@ -90,7 +90,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                        android:src="@drawable/ic_train" android:tint="#FF9800"
+                        android:src="@drawable/ic_train" app:tint="#FF9800"
                         android:background="@drawable/bg_circle_dark_orange" android:padding="6dp"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"
@@ -121,7 +121,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                        android:src="@drawable/ic_heart" android:tint="#4CAF50"
+                        android:src="@drawable/ic_heart" app:tint="#4CAF50"
                         android:background="@drawable/bg_circle_dark_green" android:padding="6dp"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"
@@ -152,7 +152,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                        android:src="@drawable/ic_flame" android:tint="#E53935"
+                        android:src="@drawable/ic_flame" app:tint="#E53935"
                         android:background="@drawable/bg_circle_dark_red" android:padding="6dp"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"
@@ -183,7 +183,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                        android:src="@drawable/ic_sleep" android:tint="#7C4DFF"
+                        android:src="@drawable/ic_sleep" app:tint="#7C4DFF"
                         android:background="@drawable/bg_circle_dark_purple" android:padding="6dp"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"

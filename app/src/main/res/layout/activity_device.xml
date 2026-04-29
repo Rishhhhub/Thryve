@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent">
         <ImageView android:id="@+id/btnBack"
             android:layout_width="36dp" android:layout_height="36dp"
-            android:src="@drawable/ic_back" android:tint="#FFFFFF" android:padding="6dp"/>
+            android:src="@drawable/ic_back" app:tint="#FFFFFF" android:padding="6dp"/>
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
             android:layout_weight="1" android:text="Device"
             android:textColor="#FFFFFF" android:textSize="18sp"
@@ -49,7 +49,7 @@
                     android:orientation="horizontal" android:padding="20dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="56dp" android:layout_height="56dp"
-                        android:src="@drawable/ic_device" android:tint="#4CAF50"
+                        android:src="@drawable/ic_device" app:tint="#4CAF50"
                         android:background="@drawable/bg_circle_dark_green" android:padding="12dp"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"
@@ -76,7 +76,7 @@
                             android:textSize="22sp" android:fontFamily="sans-serif-bold"
                             android:gravity="center"/>
                         <ImageView android:layout_width="20dp" android:layout_height="20dp"
-                            android:src="@drawable/ic_battery" android:tint="#4CAF50"/>
+                            android:src="@drawable/ic_battery" app:tint="#4CAF50"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -98,7 +98,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                        android:src="@drawable/ic_sync" android:tint="#4CAF50"/>
+                        android:src="@drawable/ic_sync" app:tint="#4CAF50"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"
                         android:layout_marginStart="14dp">
@@ -109,7 +109,7 @@
                             android:textSize="12sp"/>
                     </LinearLayout>
                     <ImageView android:layout_width="18dp" android:layout_height="18dp"
-                        android:src="@drawable/ic_add" android:tint="#555555"
+                        android:src="@drawable/ic_add" app:tint="#555555"
                         android:rotation="45"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -125,7 +125,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                        android:src="@drawable/ic_bell" android:tint="#FF9800"/>
+                        android:src="@drawable/ic_bell" app:tint="#FF9800"/>
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:text="Notifications"
                         android:textColor="#FFFFFF" android:textSize="15sp"
@@ -149,7 +149,7 @@
                     android:orientation="horizontal" android:padding="16dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="22dp" android:layout_height="22dp"
-                        android:src="@drawable/ic_heart" android:tint="#E53935"/>
+                        android:src="@drawable/ic_heart" app:tint="#E53935"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                         android:layout_weight="1" android:orientation="vertical"
                         android:layout_marginStart="14dp">
