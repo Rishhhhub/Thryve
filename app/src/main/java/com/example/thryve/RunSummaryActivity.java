@@ -45,7 +45,7 @@ public class RunSummaryActivity extends AppCompatActivity implements OnMapReadyC
         if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_run_summary);
 
-        // 🔥 GET DATA SAFELY
+        // get intent data safely
         Intent in = getIntent();
 
         durationMs = in.getLongExtra("duration_ms", 0);
@@ -58,7 +58,7 @@ public class RunSummaryActivity extends AppCompatActivity implements OnMapReadyC
 
         populateStats();
 
-        // 🔥 MAP INIT
+        // initialize map
         SupportMapFragment mapFrag =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.summaryMap);
 
@@ -121,7 +121,7 @@ public class RunSummaryActivity extends AppCompatActivity implements OnMapReadyC
                     .setText(String.format(Locale.US, "%d:%02d /km", pm, ps));
         }
 
-        // 🔥 Calories
+        // Calories
         ((TextView) findViewById(R.id.tvSumCalories))
                 .setText(calories + " kcal");
     }

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.*;
+import android.view.View;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -108,6 +109,19 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             try {
                 googleMap.setMyLocationEnabled(true);
+
+                // move my location button to bottom right
+                SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                if (mapFrag != null && mapFrag.getView() != null) {
+                    View mapView = mapFrag.getView();
+                    View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+                    if (locationButton != null) {
+                        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+                        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                        rlp.setMargins(0, 0, 30, 30);
+                    }
+                }
                 
                 // AUTO ZOOM ON OPEN
                 FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
