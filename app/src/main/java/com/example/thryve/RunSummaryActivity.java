@@ -53,9 +53,9 @@ public class RunSummaryActivity extends AppCompatActivity implements OnMapReadyC
 
         populateStats();
 
-        // 🔥 MAP INIT (ID MUST BE "map")
+        // 🔥 MAP INIT
         SupportMapFragment mapFrag =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.summaryMap);
 
         if (mapFrag != null) {
             mapFrag.getMapAsync(this);
@@ -147,7 +147,9 @@ public class RunSummaryActivity extends AppCompatActivity implements OnMapReadyC
         // 🎯 CAMERA FIT
         try {
             LatLngBounds bounds = boundsBuilder.build();
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 80));
+            googleMap.setOnMapLoadedCallback(() -> {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 80));
+            });
         } catch (Exception e) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(points.get(0), 15f));
         }

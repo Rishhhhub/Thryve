@@ -32,7 +32,7 @@ public class LocationTrackingService extends Service {
     private static final String CHANNEL_ID   = "thryve_run_channel";
     private static final int    NOTIF_ID     = 101;
     private static final long   INTERVAL_MS  = 3000L;  // update every 3 seconds
-    private static final float  MIN_DISTANCE = 5f;     // metres
+    private static final float  MIN_DISTANCE = 0f;     // metres
 
     private FusedLocationProviderClient fusedClient;
     private LocationCallback locationCallback;
@@ -85,6 +85,7 @@ public class LocationTrackingService extends Service {
 
     private void broadcastLocation(Location loc) {
         Intent broadcast = new Intent(ACTION_LOCATION_UPDATE);
+        broadcast.setPackage(getPackageName());
         broadcast.putExtra(EXTRA_LAT, loc.getLatitude());
         broadcast.putExtra(EXTRA_LNG, loc.getLongitude());
         broadcast.putExtra(EXTRA_ACC, loc.getAccuracy());

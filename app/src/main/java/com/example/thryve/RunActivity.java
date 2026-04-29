@@ -1,15 +1,13 @@
 package com.example.thryve;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.*;
-import android.util.Log;
 import android.widget.*;
-
-import com.google.android.gms.maps.GoogleMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,8 +36,9 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     private final List<LatLng> routePoints = new ArrayList<>();
 
     private GoogleMap googleMap;
+    private Polyline currentPolyline;
 
-    private TextView tvDuration, tvDistance, tvPace, tvCalories, tvRunStatus;
+    private TextView tvDuration, tvDistance, tvPace, tvCalories;
     private Button btnStartStop;
 
     private Handler timerHandler;
@@ -50,14 +49,12 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_run);
 
         tvDuration = findViewById(R.id.tvDuration);
         tvDistance = findViewById(R.id.tvDistance);
         tvPace = findViewById(R.id.tvPace);
         tvCalories = findViewById(R.id.tvCalories);
-        tvRunStatus = findViewById(R.id.tvRunStatus);
         btnStartStop = findViewById(R.id.btnStartStop);
 
         SupportMapFragment mapFrag =
@@ -69,6 +66,8 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             if (isRunning) {
                 elapsedMs = System.currentTimeMillis() - startTimeMs;
                 tvDuration.setText(formatDuration(elapsedMs));
+                updatePace();
+                updateCalories();
                 timerHandler.postDelayed(timerRunnable, 1000);
             }
         };
@@ -80,7 +79,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 double lng = intent.getDoubleExtra(LocationTrackingService.EXTRA_LNG, 0);
                 float acc = intent.getFloatExtra(LocationTrackingService.EXTRA_ACC, 100);
 
-                if (acc <= 50) {
+                if (acc <= 200) {
                     onNewLocation(lat, lng);
                 }
             }
@@ -90,30 +89,29 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             if (!isRunning) startRun();
             else stopRun();
         });
-
-        findViewById(R.id.btnBack).setOnClickListener(v -> {
-            if (isRunning) {
-                Toast.makeText(this, "Stop the run first", Toast.LENGTH_SHORT).show();
-            } else finish();
-        });
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
-        googleMap.getUiSettings().setZoomControlsEnabled(false);
 
-        if (hasLocationPermission()) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             try {
                 googleMap.setMyLocationEnabled(true);
             } catch (SecurityException ignored) {}
         }
     }
 
-    @SuppressWarnings("UnspecifiedRegisterReceiverFlag")
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private void startRun() {
-        if (!hasLocationPermission()) {
-            requestLocationPermission();
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_REQUEST_CODE);
             return;
         }
 
@@ -122,6 +120,10 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         elapsedMs = 0;
         totalDistanceKm = 0;
         routePoints.clear();
+        if (currentPolyline != null) {
+            currentPolyline.remove();
+            currentPolyline = null;
+        }
         lastLocation = null;
 
         btnStartStop.setText("STOP RUN");
@@ -130,7 +132,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
         IntentFilter filter = new IntentFilter(LocationTrackingService.ACTION_LOCATION_UPDATE);
 
-        if (Build.VERSION.SDK_INT >= 33) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(locationReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
         } else {
             registerReceiver(locationReceiver, filter);
@@ -146,7 +148,9 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
         stopService(new Intent(this, LocationTrackingService.class));
 
-        try { unregisterReceiver(locationReceiver); } catch (Exception ignored) {}
+        try {
+            unregisterReceiver(locationReceiver);
+        } catch (Exception ignored) {}
 
         if (routePoints.isEmpty()) {
             Toast.makeText(this, "No GPS data", Toast.LENGTH_SHORT).show();
@@ -161,37 +165,76 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             lngs.add(p.longitude);
         }
 
-        saveRunToFirebase(totalDistanceKm, elapsedMs, lats, lngs);
+        saveRunToFirebase(totalDistanceKm, elapsedMs, lats, lngs, () -> {
+            Intent summary = new Intent(this, RunSummaryActivity.class);
+            summary.putExtra("duration_ms", elapsedMs);
+            summary.putExtra("distance_km", totalDistanceKm);
+            summary.putExtra("calories", (int)(totalDistanceKm * CALORIES_PER_KM));
+            summary.putExtra("lats", (ArrayList<Double>) lats);
+            summary.putExtra("lngs", (ArrayList<Double>) lngs);
 
-        Intent summary = new Intent(this, RunSummaryActivity.class);
-        summary.putExtra("duration_ms", elapsedMs);
-        summary.putExtra("distance_km", totalDistanceKm);
-        summary.putExtra("calories", (int)(totalDistanceKm * CALORIES_PER_KM));
-        summary.putExtra("lats", (ArrayList<Double>) lats);
-        summary.putExtra("lngs", (ArrayList<Double>) lngs);
+            startActivity(summary);
+        });
+    }
 
-        startActivity(summary);
+    private void onNewLocation(double lat, double lng) {
+
+        LatLng newPoint = new LatLng(lat, lng);
+
+        if (lastLocation != null) {
+            float[] res = new float[1];
+            Location.distanceBetween(
+                    lastLocation.getLatitude(),
+                    lastLocation.getLongitude(),
+                    lat, lng, res
+            );
+
+            if (res[0] > 0 && res[0] <= 100) {
+                totalDistanceKm += res[0] / 1000.0;
+            }
+        }
+
+        routePoints.add(newPoint);
+
+        tvDistance.setText(String.format(Locale.US, "%.2f km", totalDistanceKm));
+
+        if (googleMap != null) {
+            if (currentPolyline == null) {
+                currentPolyline = googleMap.addPolyline(new PolylineOptions()
+                        .color(Color.GREEN)
+                        .width(8f));
+            }
+            currentPolyline.setPoints(routePoints);
+
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPoint, 17f));
+        }
+
+        Location loc = new Location("gps");
+        loc.setLatitude(lat);
+        loc.setLongitude(lng);
+        lastLocation = loc;
     }
 
     private void saveRunToFirebase(double distance, long duration,
-                                   List<Double> lats, List<Double> lngs) {
+                                   List<Double> lats, List<Double> lngs,
+                                   Runnable onSuccess) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         if (auth.getCurrentUser() == null) {
-            auth.signInAnonymously()
-                    .addOnSuccessListener(r ->
-                            saveRunWithUser(db, r.getUser().getUid(), distance, duration, lats, lngs));
+            auth.signInAnonymously().addOnSuccessListener(r ->
+                    saveRunWithUser(db, r.getUser().getUid(), distance, duration, lats, lngs, onSuccess));
             return;
         }
 
-        saveRunWithUser(db, auth.getCurrentUser().getUid(), distance, duration, lats, lngs);
+        saveRunWithUser(db, auth.getCurrentUser().getUid(), distance, duration, lats, lngs, onSuccess);
     }
 
     private void saveRunWithUser(FirebaseFirestore db, String userId,
                                  double distance, long duration,
-                                 List<Double> lats, List<Double> lngs) {
+                                 List<Double> lats, List<Double> lngs,
+                                 Runnable onSuccess) {
 
         Map<String, Object> run = new HashMap<>();
         run.put("distance", distance);
@@ -204,63 +247,43 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 .document(userId)
                 .collection("runs")
                 .add(run)
-                .addOnSuccessListener(d -> Log.d("RUN_SAVE", "Saved"))
-                .addOnFailureListener(e -> Log.e("RUN_SAVE", "Error", e));
-    }
-
-    private void onNewLocation(double lat, double lng) {
-
-        LatLng newPoint = new LatLng(lat, lng);
-
-        if (lastLocation != null) {
-            float[] res = new float[1];
-            Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(),
-                    lat, lng, res);
-            totalDistanceKm += res[0] / 1000.0;
-        }
-
-        routePoints.add(newPoint);
-
-        tvDistance.setText(String.format(Locale.US, "%.2f km", totalDistanceKm));
-
-        if (googleMap != null) {
-            googleMap.addPolyline(new PolylineOptions()
-                    .addAll(routePoints)
-                    .color(Color.GREEN)
-                    .width(8f));
-
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPoint, 17f));
-        }
-
-        Location loc = new Location("gps");
-        loc.setLatitude(lat);
-        loc.setLongitude(lng);
-        lastLocation = loc;
-    }
-
-    private boolean hasLocationPermission() {
-        return ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestLocationPermission() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                PERMISSION_REQUEST_CODE);
+                .addOnSuccessListener(d -> {
+                    if (onSuccess != null) onSuccess.run();
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Failed to save run", Toast.LENGTH_SHORT).show());
     }
 
     @Override
-    public void onRequestPermissionsResult(int req, @NonNull String[] perms,
-                                           @NonNull int[] res) {
-        super.onRequestPermissionsResult(req, perms, res);
-        if (req == PERMISSION_REQUEST_CODE && res.length > 0 &&
-                res[0] == PackageManager.PERMISSION_GRANTED) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_CODE
+                && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startRun();
         }
     }
 
+    private void updatePace() {
+        if (totalDistanceKm > 0) {
+            double paceSec = (elapsedMs / 1000.0) / totalDistanceKm;
+            int min = (int) paceSec / 60;
+            int sec = (int) paceSec % 60;
+            tvPace.setText(min + ":" + String.format(Locale.US, "%02d", sec) + " /km");
+        }
+    }
+
+    private void updateCalories() {
+        int calories = (int) (totalDistanceKm * CALORIES_PER_KM);
+        tvCalories.setText(calories + " kcal");
+    }
+
     private String formatDuration(long ms) {
         long s = ms / 1000;
-        return String.format(Locale.US, "%02d:%02d:%02d", s/3600, (s%3600)/60, s%60);
+        return String.format(Locale.US, "%02d:%02d:%02d",
+                s/3600, (s%3600)/60, s%60);
     }
 }
