@@ -2,16 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.thryve">
 
-    <!-- ── PERMISSIONS ── -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
 
-    <!-- (Optional: add later if needed) -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/> -->
-    <!-- <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/> -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:allowBackup="true"
@@ -21,47 +20,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Thryve">
 
-        <!-- 🔴 GOOGLE MAPS API KEY (PUT YOUR KEY HERE) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}"/>
 
-        <!-- ── LAUNCHER ── -->
-        <activity
-            android:name=".SplashActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Thryve">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
+        <activity android:name=".SplashActivity" android:exported="true" android:screenOrientation="portrait" android:theme="@style/Theme.Thryve">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <!-- ── CORE FLOW ── -->
-        <activity android:name=".OnboardingActivity" android:exported="false"/>
-        <activity android:name=".DashboardActivity" android:exported="false"/>
+        <activity android:name=".OnboardingActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".DashboardActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".StrainDetailActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".RecoveryDetailActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".StepsActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".SleepActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".RunActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".RunSummaryActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".JournalActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".DeviceActivity" android:exported="false" android:screenOrientation="portrait"/>
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".HealthActivity"/>
 
-        <!-- ── DETAILS ── -->
-        <activity android:name=".StrainDetailActivity" android:exported="false"/>
-        <activity android:name=".RecoveryDetailActivity" android:exported="false"/>
-        <activity android:name=".StepsActivity" android:exported="false"/>
-        <activity android:name=".SleepActivity" android:exported="false"/>
-
-        <!-- ── RUN FEATURE ── -->
-        <activity android:name=".RunActivity" android:exported="false"/>
-        <activity android:name=".RunSummaryActivity" android:exported="false"/>
-
-        <!-- ── EXTRA ── -->
-        <activity android:name=".JournalActivity" android:exported="false"/>
-        <activity android:name=".DeviceActivity" android:exported="false"/>
-
-        <!-- ── LOCATION SERVICE ── -->
-        <service
-            android:name=".LocationTrackingService"
-            android:exported="false"
-            android:foregroundServiceType="location"/>
-
+        <service android:name=".LocationTrackingService" android:exported="false" android:foregroundServiceType="location"/>
     </application>
 </manifest>
