@@ -5,6 +5,7 @@ import java.util.List;
 
 public class RunModel {
 
+    public String runId;
     public double distance;
     public List <Double> lats;
     public List <Double> lngs;

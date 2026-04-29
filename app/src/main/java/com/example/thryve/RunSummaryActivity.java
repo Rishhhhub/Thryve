@@ -20,6 +20,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -50,6 +53,7 @@ public class RunSummaryActivity extends AppCompatActivity implements OnMapReadyC
 
         lats = (ArrayList<Double>) getIntent().getSerializableExtra("lats");
         lngs = (ArrayList<Double>) getIntent().getSerializableExtra("lngs");
+        String runId = getIntent().getStringExtra("run_id");
 
         populateStats();
 
@@ -72,9 +76,26 @@ public class RunSummaryActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         // ❌ DISCARD
-        ((Button) findViewById(R.id.btnDiscard)).setOnClickListener(v ->
-                startActivity(new Intent(this, DashboardActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        ((Button) findViewById(R.id.btnDiscard)).setOnClickListener(v -> {
+            if (runId != null) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                if (auth.getCurrentUser() != null) {
+                    FirebaseFirestore.getInstance().collection("users")
+                            .document(auth.getCurrentUser().getUid())
+                            .collection("runs")
+                            .document(runId)
+                            .delete()
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this, "Run discarded", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(this, DashboardActivity.class)
+                                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            });
+                    return;
+                }
+            }
+            startActivity(new Intent(this, DashboardActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        });
     }
 
     private void populateStats() {

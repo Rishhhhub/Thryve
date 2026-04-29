@@ -42,6 +42,9 @@ public class HistoryActivity extends AppCompatActivity {
                 intent.putExtra("lats", new ArrayList<>(run.lats));
                 intent.putExtra("lngs", new ArrayList<>(run.lngs));
             }
+            if (run.runId != null) {
+                intent.putExtra("run_id", run.runId);
+            }
 
             startActivity(intent);
         });
@@ -76,6 +79,7 @@ public class HistoryActivity extends AppCompatActivity {
                         if (data == null) continue;
 
                         RunModel run = new RunModel();
+                        run.runId = doc.getId();
 
                         if (data.get("distance") != null)
                             run.distance = ((Number) data.get("distance")).doubleValue();

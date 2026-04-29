@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.*;
+import androidx.core.util.Consumer;
 
 public class RunActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -165,13 +166,16 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             lngs.add(p.longitude);
         }
 
-        saveRunToFirebase(totalDistanceKm, elapsedMs, lats, lngs, () -> {
+        saveRunToFirebase(totalDistanceKm, elapsedMs, lats, lngs, runId -> {
             Intent summary = new Intent(this, RunSummaryActivity.class);
             summary.putExtra("duration_ms", elapsedMs);
             summary.putExtra("distance_km", totalDistanceKm);
             summary.putExtra("calories", (int)(totalDistanceKm * CALORIES_PER_KM));
             summary.putExtra("lats", (ArrayList<Double>) lats);
             summary.putExtra("lngs", (ArrayList<Double>) lngs);
+            if (runId != null) {
+                summary.putExtra("run_id", runId);
+            }
 
             startActivity(summary);
         });
@@ -217,7 +221,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void saveRunToFirebase(double distance, long duration,
                                    List<Double> lats, List<Double> lngs,
-                                   Runnable onSuccess) {
+                                   Consumer<String> onSuccess) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -234,7 +238,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     private void saveRunWithUser(FirebaseFirestore db, String userId,
                                  double distance, long duration,
                                  List<Double> lats, List<Double> lngs,
-                                 Runnable onSuccess) {
+                                 Consumer<String> onSuccess) {
 
         Map<String, Object> run = new HashMap<>();
         run.put("distance", distance);
@@ -248,7 +252,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 .collection("runs")
                 .add(run)
                 .addOnSuccessListener(d -> {
-                    if (onSuccess != null) onSuccess.run();
+                    if (onSuccess != null) onSuccess.accept(d.getId());
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Failed to save run", Toast.LENGTH_SHORT).show());
