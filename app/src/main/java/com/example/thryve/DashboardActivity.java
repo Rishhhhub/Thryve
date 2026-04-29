@@ -1,14 +1,20 @@
 package com.example.thryve;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import com.example.thryve.ui.HeartRateBarView;
 import com.example.thryve.ui.TripleRingView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,6 +25,9 @@ public class DashboardActivity extends AppCompatActivity {
 
     private ImageView imgAvatar;
     private TextView tvUsername;
+    private TextView tvSteps;
+    
+    private StepSensorHelper stepSensorHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +37,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         imgAvatar = findViewById(R.id.imgAvatar);
         tvUsername = findViewById(R.id.tvUsername);
+        tvSteps = findViewById(R.id.tvSteps);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Log.d("FIREBASE_TEST", "Attempting write...");
@@ -35,12 +45,46 @@ public class DashboardActivity extends AppCompatActivity {
         setupMockData();
         setupNavigation();
         loadUserData();
+        
+        stepSensorHelper = StepSensorHelper.getInstance(this);
+        if (!stepSensorHelper.isSensorPresent() && tvSteps != null) {
+            tvSteps.setText("No Sensor");
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION);
+            }
+        }
     }
+    
+    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (!isGranted && tvSteps != null) {
+                    tvSteps.setText("Perm. Denied");
+                }
+            });
 
     @Override
     protected void onResume() {
         super.onResume();
         loadUserData();
+        
+        if (stepSensorHelper.isSensorPresent() && ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED) {
+            stepSensorHelper.startListening(steps -> {
+                if (tvSteps != null) {
+                    tvSteps.setText(String.format(java.util.Locale.getDefault(), "%,d", steps));
+                }
+            });
+        }
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (stepSensorHelper.isSensorPresent()) {
+            stepSensorHelper.stopListening();
+        }
     }
 
     private void loadUserData() {
