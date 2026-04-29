@@ -18,13 +18,13 @@
         app:layout_constraintEnd_toEndOf="parent">
         <ImageView android:id="@+id/btnBack"
             android:layout_width="36dp" android:layout_height="36dp"
-            android:src="@drawable/ic_back" app:tint="#FFFFFF" android:padding="6dp"/>
+            android:src="@drawable/ic_back" android:tint="#FFFFFF" android:padding="6dp"/>
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
             android:layout_weight="1" android:text="Run Summary"
             android:textColor="#FFFFFF" android:textSize="18sp"
             android:fontFamily="sans-serif-bold" android:gravity="center"/>
         <ImageView android:layout_width="36dp" android:layout_height="36dp"
-            android:src="@drawable/ic_share" app:tint="#AAAAAA" android:padding="6dp"/>
+            android:src="@drawable/ic_share" android:tint="#AAAAAA" android:padding="6dp"/>
     </LinearLayout>
 
     <ScrollView android:layout_width="0dp" android:layout_height="0dp"
@@ -46,7 +46,7 @@
                 android:layout_marginTop="8dp"
                 app:cardBackgroundColor="#111811" app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
-                <androidx.fragment.app.FragmentContainerView
+                <fragment
                     android:id="@+id/summaryMap"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
