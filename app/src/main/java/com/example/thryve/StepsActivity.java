@@ -55,7 +55,7 @@ public class StepsActivity extends AppCompatActivity {
         // 1 step = ~0.000762 km
         double distanceKm = steps * 0.000762;
         if (tvStepDistance != null) {
-            tvStepDistance.setText(String.format(java.util.Locale.getDefault(), "%.1f km", distanceKm));
+            tvStepDistance.setText(String.format(java.util.Locale.getDefault(), "%.2f km", distanceKm));
         }
         
         // 1 step = ~0.04 calories

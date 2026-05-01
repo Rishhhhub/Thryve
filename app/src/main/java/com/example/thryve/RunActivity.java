@@ -84,7 +84,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 double lng = intent.getDoubleExtra(LocationTrackingService.EXTRA_LNG, 0);
                 float acc = intent.getFloatExtra(LocationTrackingService.EXTRA_ACC, 100);
 
-                if (acc <= 200) {
+                if (acc <= 500) {
                     onNewLocation(lat, lng);
                 }
             }
@@ -225,7 +225,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                     lat, lng, res
             );
 
-            if (res[0] > 0 && res[0] <= 100) {
+            if (res[0] > 0 && res[0] <= 500) {
                 totalDistanceKm += res[0] / 1000.0;
             }
         }
